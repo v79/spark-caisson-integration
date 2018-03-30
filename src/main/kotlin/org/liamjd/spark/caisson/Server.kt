@@ -1,6 +1,8 @@
 package org.liamjd.spark.caisson
 
+import org.liamjd.spark.caisson.controllers.HomeController
 import org.slf4j.LoggerFactory
+import spark.kotlin.get
 import spark.kotlin.port
 import spark.kotlin.staticFiles
 import spark.servlet.SparkApplication
@@ -12,11 +14,14 @@ class Server : SparkApplication {
 
 	constructor(args: Array<String>) {
 		val portNumber: String? = System.getProperty("server.port")
-		port(number = portNumber?.toInt() ?: 4567)
+		port(number = portNumber?.toInt() ?: 4569)
 
 		staticFiles.location("/public")
 
 		displayStartupMessage(portNumber?.toInt())
+
+		// initialize controllers
+		HomeController()
 
 	}
 
@@ -29,7 +34,7 @@ class Server : SparkApplication {
 		logger.info("Kotlin Spark Route Tester Started")
 		logger.info("Date: " + Date().toString())
 		logger.info("OS: " + System.getProperty("os.name"))
-		logger.info("Port: " + portNumber)
+		logger.info("Port: " + if (portNumber != null) portNumber else "4569")
 		logger.info("JDBC URL: " + System.getenv("JDBC_DATABASE_URL"))
 		logger.info("=============================================================")
 	}
