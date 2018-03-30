@@ -1,0 +1,38 @@
+buildscript {
+    ext.kotlin_version = '1.2.31'
+    ext.spark_kotlin_version = '1.0.0-alpha'
+    ext.caisson_version = '0.0.1-SNAPSHOT'
+    ext.thymeleaf_version = '3.0.6.RELEASE'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+group 'org.liamjd'
+version '0.0.1-SNAPSHOT'
+
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "com.sparkjava:spark-kotlin:$spark_kotlin_version"
+    compile "org.thymeleaf:thymeleaf:$thymeleaf_version"
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.0.RELEASE'
+
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
