@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+	<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--Import materialize.css-->
+	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">-->
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta charset="UTF-8">
+	<title>Complex Spark-Caisson Integration Tests</title>
+</head>
+<body>
+<h2>Complex Spark-Caisson Integration Tests</h2>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col s12">
+			<p><a href="/">Home</a></p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+			<div id="results">
+				<p>Results go here</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col s8">
+				<form id="complexForm">
+					<fieldset id="complex-fieldgroup">
+						<div class="input-field col s3">
+
+							<input id="complex-text" type="text" name="complexText"/>
+							<input id="complex-number" type="number" name="complexNumber"/>
+							<input id="complex-password" type="password" name="complexPassword"/>
+							<input id="complex-hidden" type="hidden" name="complexHidden" value="hidden value"/>
+							<input id="complex-checkbox-blue" type="checkbox" name="complexColour" value="blue" checked> Blue<br>
+							<input id="complex-checkbox-green" type="checkbox" name="complexColour" value="green"> Green<br>
+							<input id="complex-checkbox-red" type="checkbox" name="complexColour" value="red"> Red
+						</div>
+						<div class="input-field  col s3">
+							<label for="complex-text">Some text</label>
+							<label for="complex-number">A number</label>
+							<label for="complex-password">Secret password</label>
+
+							<div id="complextFormSubmit" class="btn waves-effect waves-light"  th:onclick="'submit(\'complexForm\',\'results\');'">Submit
+								<i class="material-icons right">send</i>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!--Import jQuery before materialize.js-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+<script src="/js/common.js"></script>
+</body>
+</html>

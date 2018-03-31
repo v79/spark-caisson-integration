@@ -1,8 +1,8 @@
 package org.liamjd.spark.caisson
 
+import org.liamjd.spark.caisson.controllers.ComplexController
 import org.liamjd.spark.caisson.controllers.HomeController
 import org.slf4j.LoggerFactory
-import spark.kotlin.get
 import spark.kotlin.port
 import spark.kotlin.staticFiles
 import spark.servlet.SparkApplication
@@ -22,6 +22,7 @@ class Server : SparkApplication {
 
 		// initialize controllers
 		HomeController()
+		ComplexController()
 
 	}
 
