@@ -3,7 +3,7 @@
 	<!--Import Google Icon Font-->
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!--Import materialize.css-->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">-->
 	<!--Let browser know website is optimized for mobile-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta charset="UTF-8">
@@ -17,7 +17,7 @@
 			<div class="col s8">
 				<form id="stringForm">
 					<div class="input-field col s6">
-						<input placeholder="Just a string" id="just_a_string" type="text" class="validate" name="just_a_string">
+						<input placeholder="Just a string" id="just_a_string" type="text" class="validate" name="just_a_string"/>
 						<label for="just_a_string">Just a String</label>
 						<div id="just_a_stringSubmit" class="btn waves-effect waves-light"  th:onclick="'submit(\'stringForm\',\'results\');'">Submit
 							<i class="material-icons right">send</i>
@@ -37,7 +37,7 @@
 			<div class="col s8">
 				<form id="intForm">
 					<div class="input-field col s6">
-						<input placeholder="Just a number" id="just_an_int" type="number" class="validate" name="just_an_int">
+						<input placeholder="Just a number" id="just_an_int" type="number" class="validate" name="just_an_int"/>
 						<label for="just_a_string">Just an Integer</label>
 						<div id="jjust_an_intSubmit" class="btn waves-effect waves-light"  th:onclick="'submit(\'intForm\',\'results\');'">Submit
 							<i class="material-icons right">send</i>
@@ -50,9 +50,9 @@
 				<div class="col s8">
 					<form id="personForm">
 						<div class="input-field col s6">
-							<input placeholder="Name" id="person_name" type="text" class="validate" name="name">
+							<input placeholder="Name" id="person_name" type="text" class="validate" name="name"/>
 							<label for="person_name">Your name</label>
-							<input placeholder="38" id="person_age" type="number" class="validate" name="age">
+							<input placeholder="38" id="person_age" type="number" class="validate" name="age"/>
 							<label for="person_age">Your age</label>
 							<div id="personSubmit" class="btn waves-effect waves-light"  th:onclick="'submit(\'personForm\',\'results\');'">Submit
 								<i class="material-icons right">send</i>
@@ -61,6 +61,56 @@
 					</form>
 				</div>
 
+				<div class="row">
+					<div class="col s8">
+						<form id="checkboxForm">
+							<div class="input-field col s6">
+								<input id="checkbox" type="checkbox" name="agree" checked="checked"/><br/>
+								<label for="checkbox">I agree</label>
+								<div id="checkboxSubmit" class="btn waves-effect waves-light"  th:onclick="'submit(\'checkboxForm\',\'results\');'">Submit
+									<i class="material-icons right">send</i>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col s8">
+						<form id="radioButtonForm">
+							<div class="input-field col s6">
+
+								<input id="male" type="radio" name="gender" value="male" checked> Male<br>
+								<input id="female" type="radio" name="gender" value="female"> Female<br>
+								<input id="other" type="radio" name="gender" value="other"> Other
+
+								<div id="radioButtonSubmit" class="btn waves-effect waves-light"  th:onclick="'submit(\'radioButtonForm\',\'results\');'">Submit
+									<i class="material-icons right">send</i>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col s8">
+						<form id="checkboxGroupForm">
+							<fieldset id="checkbox-fieldgroup">
+								<div class="input-field col s6">
+
+									<input id="checkbox-blue" type="checkbox" name="colour" value="blue" checked> Blue<br>
+									<input id="checkbox-green" type="checkbox" name="colour" value="green"> Green<br>
+									<input id="checkbox-red" type="checkbox" name="colour" value="red"> Red
+
+									<div id="checkboxGroupFormSubmit" class="btn waves-effect waves-light"  th:onclick="'submit(\'checkboxGroupForm\',\'results\');'">Submit
+										<i class="material-icons right">send</i>
+									</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
