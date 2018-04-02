@@ -31,8 +31,7 @@ class HomeController : AbstractController("/") {
 		}
 
 		post("stringForm") {
-			val form: Form = Form(request.queryMap().toMap(), StringForm::class)
-			val result: StringForm = form.get() as StringForm
+			val result = Form(request.queryMap().toMap(),StringForm::class).get() as StringForm
 			model.put("resultingString",result.toString())
 
 			render()

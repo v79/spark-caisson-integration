@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--Import materialize.css-->
+	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">-->
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta charset="UTF-8">
+	<title>Spark-Caisson Integration Tests</title>
+</head>
+<body>
+	<h1>Spark-Caisson Integration Tests</h1>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<p><a href="/">Home</a> | <a href="complex">Complex Test</a></p>
+			</div>
+			<div class="col s8">
+				<form id="stringForm"  action="getString" method="get">
+					<div class="input-field col s6">
+						<input placeholder="Just a string" id="just_a_string" type="text" class="validate" name="just_a_string"/>
+						<label for="just_a_string">Just a String</label>
+						<button type="submit">Submit Get</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="col s4">
+				<div id="results">
+					<p>Results go here</p>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="col s8">
+					<form id="getIntForm">
+						<div class="input-field col s6">
+							<input placeholder="Just a number" id="just_an_int" type="number" class="validate" name="just_an_int"/>
+							<label for="just_a_string">Just an Integer</label>
+							<div id="jjust_an_intSubmit" class="btn waves-effect waves-light"  th:onclick="'getSubmit(\'getIntForm\',\'results\');'">Get int
+								<i class="material-icons right">send</i>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="col s8">
+					<form id="getComplexForm" action="getComplex" method="get">
+						<fieldset id="complex-fieldgroup">
+							<div class="input-field col s3">
+
+								<input id="complex-text" type="text" name="complexText"/>
+								<input id="complex-number" type="number" name="complexNumber"/>
+								<input id="complex-password" type="password" name="complexPassword"/>
+								<input id="complex-hidden" type="hidden" name="complexHidden" value="hidden value"/>
+								<input id="complex-checkbox-blue" type="checkbox" name="complexColour" value="blue" checked> Blue<br>
+								<input id="complex-checkbox-green" type="checkbox" name="complexColour" value="green"> Green<br>
+								<input id="complex-checkbox-red" type="checkbox" name="complexColour" value="red"> Red
+							</div>
+							<div class="input-field  col s3">
+								<label for="complex-text">Some text</label>
+								<label for="complex-number">A number</label>
+								<label for="complex-password">Secret password</label>
+
+								<button type="submit">Submit Get Complex</button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+<!--Import jQuery before materialize.js-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+	<script src="/js/common.js"></script>
+</body>
+</html>
