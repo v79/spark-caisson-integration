@@ -15,7 +15,6 @@ class ComplexController : AbstractController("/complex") {
 
 		post("complexForm") {
 			println("---- Complex form ----")
-			debugQueryMap(request)
 
 			val form = Form(request.queryMap().toMap(),ComplexForm::class)
 			val result = form.get() as ComplexForm
