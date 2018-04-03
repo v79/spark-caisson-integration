@@ -1,6 +1,7 @@
 package org.liamjd.spark.caisson
 
 import org.liamjd.spark.caisson.controllers.ComplexController
+import org.liamjd.spark.caisson.controllers.FileUploadController
 import org.liamjd.spark.caisson.controllers.GetController
 import org.liamjd.spark.caisson.controllers.HomeController
 import org.slf4j.LoggerFactory
@@ -25,6 +26,7 @@ class Server : SparkApplication {
 		HomeController()
 		ComplexController()
 		GetController()
+		FileUploadController()
 
 	}
 

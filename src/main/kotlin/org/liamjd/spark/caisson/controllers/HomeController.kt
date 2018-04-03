@@ -25,6 +25,9 @@ data class CheckboxListForm(val colour: List<String>)
 
 @CController
 class HomeController : AbstractController("/") {
+
+	val resultView = "fragments/results"
+
 	init {
 		get(path) {
 			engine.render(ModelAndView(model,"home"))
@@ -34,21 +37,21 @@ class HomeController : AbstractController("/") {
 			val result = Form(request.queryMap().toMap(),StringForm::class).get() as StringForm
 			model.put("resultingString",result.toString())
 
-			render()
+			render(resultView)
 		}
 
 		post("intForm") {
 			val form = Form(request.queryMap().toMap(), IntForm::class)
 			val result = form.get() as IntForm
 			model.put("resultingString", result.toString())
-			render()
+			render(resultView)
 		}
 
 		post("personForm") {
 			val form = Form(request.queryMap().toMap(), Person::class)
 			val result = form.get() as Person
 			model.put("resultingString", result.toString())
-			render()
+			render(resultView)
 		}
 
 		post("checkboxForm") {
@@ -56,33 +59,30 @@ class HomeController : AbstractController("/") {
 			val form = Form(request.queryMap().toMap(), Checkbox::class)
 			val result = form.get() as Checkbox
 			model.put("resultingString", result.toString())
-			render()
+			render(resultView)
 		}
 
 		post("radioButtonForm") {
-			debugRequestMap(request)
 			val form = Form(request.queryMap().toMap(), GenderForm::class)
 			val result = form.get() as GenderForm
 			model.put("resultingString", result.toString())
-			render()
+			render(resultView)
 		}
 
 		post("checkboxGroupForm") {
 			// 0,1 or more items. Possible repeats? Must be a list
-			println("------------checkboxGroupForm")
 			val form = Form(request.queryMap().toMap(),CheckboxListForm::class)
 			val result = form.get() as CheckboxListForm
 			model.put("resultingString",result.toString())
-			debugQueryMap(request)
-			render()
+			render(resultView)
 		}
 
 	}
 
-	fun render(): String {
-		return engine.render(ModelAndView(model, "fragments/results"))
+	private fun render(viewName: String): String {
+		return engine.render(ModelAndView(model,viewName))
 	}
-
 }
+
 
 

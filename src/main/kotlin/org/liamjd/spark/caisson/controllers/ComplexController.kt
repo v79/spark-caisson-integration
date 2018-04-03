@@ -8,19 +8,19 @@ import spark.kotlin.get
 import spark.kotlin.post
 
 class ComplexController : AbstractController("/complex") {
+	val resultView = "fragments/results"
+
 	init {
 		get(path) {
-			engine.render(ModelAndView(model, "complex"))
+			engine.render(ModelAndView(model,"complex"))
 		}
 
 		post("complexForm") {
-			println("---- Complex form ----")
-
 			val form = Form(request.queryMap().toMap(),ComplexForm::class)
 			val result = form.get() as ComplexForm
 			model.put("resultingString",result.toString())
 
-			 engine.render(ModelAndView(model, "fragments/results"))
+			engine.render(ModelAndView(model,resultView))
 		}
 	}
 
