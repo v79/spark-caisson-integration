@@ -9,8 +9,85 @@ import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 import javax.servlet.MultipartConfigElement
+import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.Part
+import kotlin.reflect.KClass
+import kotlin.reflect.KParameter
+import kotlin.reflect.full.primaryConstructor
 
+class MultiPartForm(raw: HttpServletRequest, multiPartModel: KClass<*>) {
+	private lateinit var modelObject: Any
+
+	init {
+
+//		val caissonSuperclass: KClass<*>? = multiPartModel.superclasses.find { it.qualifiedName == "org.liamjd.spark.caisson.controllers.CaissonMultipartForm" }
+//		if(caissonSuperclass == null) {
+//			// abort! throw exception
+//			throw Exception("${multiPartModel.qualifiedName} does not extend org.liamjd.spark.caisson.controllers.CaissonMultipartForm")
+//		}
+
+		if (raw.getAttribute("org.eclipse.jetty.multipartConfig") == null) {
+			val multipartConfigElement = MultipartConfigElement(System.getProperty("java.io.tmpdir"))
+			raw.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement)
+		}
+
+		val primaryConstructor = multiPartModel.primaryConstructor
+		val constructorParams: MutableMap<KParameter, Any?> = mutableMapOf()
+
+		if(primaryConstructor != null) {
+
+			for (constructorKParam in primaryConstructor.parameters) {
+				println("MultiPartForm constructor param: ${constructorKParam.name} -> ${constructorKParam.type}")
+
+
+
+			}
+
+//			primaryConstructor.parameters.find {  }
+
+		}
+
+
+
+
+		val partNames = raw.parts.map { it.name }
+
+		// need to map the part names with the parameter names
+		// but what about the implicit values such as contentType, name, size, submittedFileName
+		// and headers such as content-disposition and content-type
+
+		println("raw part names: $partNames")
+
+//		raw.parts.forEach {
+//			println("raw part: ${it.name}")
+//		}
+
+		if(primaryConstructor != null) {
+			modelObject = primaryConstructor.callBy(constructorParams)
+		}
+	}
+
+	/**
+	 * Return the generated model object of the form data, or null
+	 */
+	fun get(): Any? {
+		if (!::modelObject.isInitialized || modelObject == null) {
+			return null
+		}
+		return modelObject
+	}
+
+}
+
+class CaissonMultipartContent(val contentType: String, val size: Long, val bytes: ByteArray, val originalFileName: String) {
+
+}
+
+data class MyFileUpload(val uploaded_file: String,
+				   val upload_description: String,
+				   val fileContents: CaissonMultipartContent) {
+
+}
 
 class FileUploadController : AbstractController(path = "/upload") {
 
@@ -25,10 +102,21 @@ class FileUploadController : AbstractController(path = "/upload") {
 		}
 
 		post(path) {
-			println("In /upload POST")
+
+			val myMultiPartForm = MultiPartForm(request.raw(), MyFileUpload::class)
+
+			val myUploadedFile = myMultiPartForm.get() as MyFileUpload
+			val bytes = myUploadedFile.fileContents.bytes
+
+
+
+
+
+
+
+
 
 			val tempFile = Files.createTempFile(uploadDir.toPath(), "", "")
-			println("tempFile: $tempFile")
 
 			// This part seems really important!
 			if (request.raw().getAttribute("org.eclipse.jetty.multipartConfig") == null) {
@@ -51,6 +139,7 @@ class FileUploadController : AbstractController(path = "/upload") {
 				}
 			}
 
+			val readBytes: ByteArray = request.raw().getPart("uploaded_file").inputStream.readBytes()
 
 			request.raw().getPart("uploaded_file").inputStream.use {
 				inputStream: InputStream? -> Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);

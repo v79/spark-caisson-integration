@@ -48,6 +48,7 @@ class HomeController : AbstractController("/") {
 		}
 
 		post("personForm") {
+			debugQueryMap(request)
 			val form = Form(request.queryMap().toMap(), Person::class)
 			val result = form.get() as Person
 			model.put("resultingString", result.toString())
