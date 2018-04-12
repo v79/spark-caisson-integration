@@ -3,7 +3,7 @@ package org.liamjd.spark.caisson.controllers
 import org.liamjd.caisson.annotations.CController
 import org.liamjd.caisson.annotations.CConverter
 import org.liamjd.caisson.controllers.AbstractController
-import org.liamjd.caisson.webforms.Form
+import org.liamjd.caisson.webforms.WebForm
 import org.liamjd.spark.caisson.converters.CheckboxConverter
 import org.liamjd.spark.caisson.converters.GenderConverter
 import spark.ModelAndView
@@ -34,14 +34,14 @@ class HomeController : AbstractController("/") {
 		}
 
 		post("stringForm") {
-			val result = Form(request.queryMap().toMap(),StringForm::class).get() as StringForm
+			val result = WebForm(request,StringForm::class).get() as StringForm
 			model.put("resultingString",result.toString())
 
 			render(resultView)
 		}
 
 		post("intForm") {
-			val form = Form(request.queryMap().toMap(), IntForm::class)
+			val form = WebForm(request, IntForm::class)
 			val result = form.get() as IntForm
 			model.put("resultingString", result.toString())
 			render(resultView)
@@ -49,7 +49,7 @@ class HomeController : AbstractController("/") {
 
 		post("personForm") {
 			debugQueryMap(request)
-			val form = Form(request.queryMap().toMap(), Person::class)
+			val form = WebForm(request, Person::class)
 			val result = form.get() as Person
 			model.put("resultingString", result.toString())
 			render(resultView)
@@ -57,14 +57,14 @@ class HomeController : AbstractController("/") {
 
 		post("checkboxForm") {
 			// request is empty when checkbox is unset
-			val form = Form(request.queryMap().toMap(), Checkbox::class)
+			val form = WebForm(request, Checkbox::class)
 			val result = form.get() as Checkbox
 			model.put("resultingString", result.toString())
 			render(resultView)
 		}
 
 		post("radioButtonForm") {
-			val form = Form(request.queryMap().toMap(), GenderForm::class)
+			val form = WebForm(request, GenderForm::class)
 			val result = form.get() as GenderForm
 			model.put("resultingString", result.toString())
 			render(resultView)
@@ -72,7 +72,7 @@ class HomeController : AbstractController("/") {
 
 		post("checkboxGroupForm") {
 			// 0,1 or more items. Possible repeats? Must be a list
-			val form = Form(request.queryMap().toMap(),CheckboxListForm::class)
+			val form = WebForm(request,CheckboxListForm::class)
 			val result = form.get() as CheckboxListForm
 			model.put("resultingString",result.toString())
 			render(resultView)

@@ -1,7 +1,7 @@
 package org.liamjd.spark.caisson.controllers
 
 import org.liamjd.caisson.controllers.AbstractController
-import org.liamjd.caisson.webforms.Form
+import org.liamjd.caisson.webforms.WebForm
 import org.liamjd.spark.caisson.models.ComplexForm
 import spark.ModelAndView
 import spark.kotlin.get
@@ -16,7 +16,7 @@ class ComplexController : AbstractController("/complex") {
 		}
 
 		post("complexForm") {
-			val form = Form(request.queryMap().toMap(),ComplexForm::class)
+			val form = WebForm(request,ComplexForm::class)
 			val result = form.get() as ComplexForm
 			model.put("resultingString",result.toString())
 

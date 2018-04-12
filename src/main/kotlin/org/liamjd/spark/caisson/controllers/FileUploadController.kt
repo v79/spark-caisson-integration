@@ -1,7 +1,11 @@
 package org.liamjd.spark.caisson.controllers
 
 import org.liamjd.caisson.controllers.AbstractController
+import org.liamjd.caisson.webforms.WebForm
+import org.liamjd.spark.caisson.models.MultipleFileUpload
+import org.liamjd.spark.caisson.models.SimpleFileUpload
 import spark.ModelAndView
+import spark.Request
 import spark.kotlin.get
 import spark.kotlin.post
 import java.io.File
@@ -9,85 +13,8 @@ import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 import javax.servlet.MultipartConfigElement
-import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.Part
-import kotlin.reflect.KClass
-import kotlin.reflect.KParameter
-import kotlin.reflect.full.primaryConstructor
 
-class MultiPartForm(raw: HttpServletRequest, multiPartModel: KClass<*>) {
-	private lateinit var modelObject: Any
-
-	init {
-
-//		val caissonSuperclass: KClass<*>? = multiPartModel.superclasses.find { it.qualifiedName == "org.liamjd.spark.caisson.controllers.CaissonMultipartForm" }
-//		if(caissonSuperclass == null) {
-//			// abort! throw exception
-//			throw Exception("${multiPartModel.qualifiedName} does not extend org.liamjd.spark.caisson.controllers.CaissonMultipartForm")
-//		}
-
-		if (raw.getAttribute("org.eclipse.jetty.multipartConfig") == null) {
-			val multipartConfigElement = MultipartConfigElement(System.getProperty("java.io.tmpdir"))
-			raw.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement)
-		}
-
-		val primaryConstructor = multiPartModel.primaryConstructor
-		val constructorParams: MutableMap<KParameter, Any?> = mutableMapOf()
-
-		if(primaryConstructor != null) {
-
-			for (constructorKParam in primaryConstructor.parameters) {
-				println("MultiPartForm constructor param: ${constructorKParam.name} -> ${constructorKParam.type}")
-
-
-
-			}
-
-//			primaryConstructor.parameters.find {  }
-
-		}
-
-
-
-
-		val partNames = raw.parts.map { it.name }
-
-		// need to map the part names with the parameter names
-		// but what about the implicit values such as contentType, name, size, submittedFileName
-		// and headers such as content-disposition and content-type
-
-		println("raw part names: $partNames")
-
-//		raw.parts.forEach {
-//			println("raw part: ${it.name}")
-//		}
-
-		if(primaryConstructor != null) {
-			modelObject = primaryConstructor.callBy(constructorParams)
-		}
-	}
-
-	/**
-	 * Return the generated model object of the form data, or null
-	 */
-	fun get(): Any? {
-		if (!::modelObject.isInitialized || modelObject == null) {
-			return null
-		}
-		return modelObject
-	}
-
-}
-
-class CaissonMultipartContent(val contentType: String, val size: Long, val bytes: ByteArray, val originalFileName: String) {
-
-}
-
-data class MyFileUpload(val uploaded_file: String,
-				   val upload_description: String,
-				   val fileContents: CaissonMultipartContent) {
-
-}
 
 class FileUploadController : AbstractController(path = "/upload") {
 
@@ -101,66 +28,70 @@ class FileUploadController : AbstractController(path = "/upload") {
 			engine.render(ModelAndView(model, "fileUpload"))
 		}
 
-		post(path) {
+		post("/upload2") {
 
-			val myMultiPartForm = MultiPartForm(request.raw(), MyFileUpload::class)
-
-			val myUploadedFile = myMultiPartForm.get() as MyFileUpload
-			val bytes = myUploadedFile.fileContents.bytes
-
-
-
-
-
-
-
-
-
-			val tempFile = Files.createTempFile(uploadDir.toPath(), "", "")
-
-			// This part seems really important!
 			if (request.raw().getAttribute("org.eclipse.jetty.multipartConfig") == null) {
 				val multipartConfigElement = MultipartConfigElement(System.getProperty("java.io.tmpdir"))
 				request.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement)
 			}
 
 
-			val file = request.raw().getPart("uploaded_file")
 
-			file.run {
-				println("ContentType: " + this.contentType)
-				println("Name: " + this.name)
-				println("Size: " + this.size)
-				println("submittedFileName: " + this.submittedFileName)
-				this.headerNames.forEach {
-					// content-disposition -> form-data; name="uploaded_file"; filename="D:\Development\Android\FuelRecorder\app\src\main\res\mipmap-hdpi\ic_launcher.png"
-					// content-type -> image/png
-					println("\t header: ${it} -> " + this.getHeader(it))
-				}
+			println("----- upload 2    ")
+			request.raw().parts.forEach {
+				println("\tpart: ${it.name}")
+				println("\t\t ${it.submittedFileName}")
 			}
 
-			val readBytes: ByteArray = request.raw().getPart("uploaded_file").inputStream.readBytes()
-
-			request.raw().getPart("uploaded_file").inputStream.use {
-				inputStream: InputStream? -> Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
-				println(tempFile.fileName.toString())  }
-
-			model.put("resultingString", getFileName(request.raw().getPart("uploaded_file")).toString())
-			engine.render(ModelAndView(model,"fragments/results"))
+			val part = request.raw().getPart("upload2")
+			println("getPart(upload2) gives us ${part}")
+			val part2 = request.raw().getPart("upload2")
+			println("getPart(upload2) again gives us ${part2}")
 
 
-			/*println("\trequest: ${request} .raw() ${request.raw()} .getPart()" + request.raw().getPart("uploaded_file"))
-			debugQueryMap(request)
+			val myMultiPartForm = WebForm(request, MultipleFileUpload::class, "upload2")
+			val files = myMultiPartForm.get()
+
+			engine.render(ModelAndView(model, "fragments/results"))
+		}
+
+		post(path) {
+			val uploadName = "upload"
+			val myMultiPartForm = WebForm(request, SimpleFileUpload::class, uploadName)
+
+			val myUploadedFile = myMultiPartForm.get() as SimpleFileUpload
+			val contentType = myUploadedFile.upload.contentType
+			val stream = myUploadedFile.upload.stream
 			val tempFile = Files.createTempFile(uploadDir.toPath(), "", "")
-			request.attribute("org.eclipse.jetty.multipartConfig", MultipartConfigElement("/temp"))
 
-			request.raw().getPart("uploaded_file").inputStream.use { inputStream: InputStream? -> Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING)  }
-			logger.info(getFileName(request.raw().getPart("uploaded_file")) + "' saved as '" + tempFile.toAbsolutePath() + "'")
+			println("------- File uploaded ------")
 
-			model.put("resultingString", getFileName(request.raw().getPart("uploaded_file")).toString())
-			engine.render(ModelAndView(model,"fileUpload"))*/
+			println("-- debugQueryMap")
+			debugQueryMap(request)
+			println("-- debugParams")
+			debugParams(request)
+			debugRawParts(request)
+
+
+			myUploadedFile.upload.run {
+				println("ContentType: " + this.contentType)
+				println("OriginalFileName: " + this.originalFileName)
+				println("Size: " + this.size)
+				println("Bytes size: " + this.stream.readBytes(this.size.toInt()).size)
+			}
+
+
+			myUploadedFile.upload.stream.use { inputStream: InputStream? ->
+				Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
+				println(tempFile.fileName.toString())
+			}
+
+			model.put("resultingString", myUploadedFile.upload.originalFileName)
+
+			engine.render(ModelAndView(model, "fragments/results"))
 		}
 	}
+
 	private fun getFileName(part: Part): String? {
 		for (cd in part.getHeader("content-disposition").split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
 			if (cd.trim { it <= ' ' }.startsWith("filename")) {
@@ -168,6 +99,19 @@ class FileUploadController : AbstractController(path = "/upload") {
 			}
 		}
 		return null
+	}
+
+	private fun debugRawParts(request: Request) {
+		println("---- debugRawParts")
+		/*println("\t headers:")
+		request.raw().headerNames.toList().forEach {
+			println("\t\t $it")
+		}*/
+		println("\t parts:")
+		request.raw().parts.forEach {
+			println("\t\t name: ${it.name}, submittedFileName: ${it.submittedFileName}, contentType: ${it.contentType}, size: ${it.size}")
+			println("\t\t\t headers: ${it.headerNames}")
+		}
 	}
 }
 

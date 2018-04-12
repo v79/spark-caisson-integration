@@ -19,10 +19,21 @@
 			<p><a href="/">Home</a> | <a href="complex">Complex Test</a> | <a href="get">Get Test</a></p>
 		</div>
 		<div class="col s8">
-			<form id="fileUploadForm" method='post' enctype='multipart/form-data' action="upload">
+			<form id="fileUploadForm" method='post' enctype='multipart/form-data' action="upload" name="fileUploadForm">
 				<div class="input-field col s6">
-					<input type='file' name='uploaded_file' accept='.png'>
+					<input type='file' name='upload' accept='.png'>
+					<input type='file' name='sendme' accept='.png'>
 					<input type="text" name="upload_description" id="upload_description" placeholder="Description">
+					<button>Upload picture</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="col s8">
+			<form id="multiFileSameName" method='post' enctype='multipart/form-data' action="upload2" name="fileUploadForm">
+				<div class="input-field col s6">
+					<input type='file' name='upload2' accept='.png'>
+					<input type='file' name='upload2' accept='.png'>
 					<button>Upload picture</button>
 				</div>
 			</form>
