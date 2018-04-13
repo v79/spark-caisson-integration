@@ -16,7 +16,6 @@ class GetController : AbstractController("/get"){
 		}
 
 		get("getString") {
-//			val result = WebForm(request,GetStringForm::class).get() as GetStringForm
 			val result = request.bind<GetStringForm>()
 			model.put("resultingString",result.toString())
 
@@ -24,8 +23,6 @@ class GetController : AbstractController("/get"){
 		}
 
 		get("getComplex") {
-//			val form = WebForm(request, modelClass = ComplexForm::class)
-//			val getComplexForm = form.get() as ComplexForm
 			val result = request.bind<ComplexForm>()
 			model.put("resultingString",result.toString())
 
@@ -34,7 +31,6 @@ class GetController : AbstractController("/get"){
 		}
 
 		get("getIntForm") {
-//			val intForm = WebForm(request, GetIntForm::class).get() as GetIntForm
 			val result = request.bind<GetIntForm>()
 			model.put("resultingString",result.toString())
 			engine.render(ModelAndView(model,"fragments/results"))

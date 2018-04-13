@@ -16,8 +16,6 @@ class ComplexController : AbstractController("/complex") {
 		}
 
 		post("complexForm") {
-//			val form = WebForm(request,ComplexForm::class)
-//			val result = form.get() as ComplexForm
 			val result = request.bind<ComplexForm>()
 			model.put("resultingString",result.toString())
 

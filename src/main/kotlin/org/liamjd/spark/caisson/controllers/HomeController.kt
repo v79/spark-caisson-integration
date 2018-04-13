@@ -34,8 +34,6 @@ class HomeController : AbstractController("/") {
 		}
 
 		post("stringForm") {
-//			val result = WebForm(request,StringForm::class).get() as StringForm
-//			val result = WebForm(request,StringForm::class).get() as StringForm
 			val result = request.bind<StringForm>()
 			model.put("resultingString",result.toString())
 
@@ -43,8 +41,6 @@ class HomeController : AbstractController("/") {
 		}
 
 		post("intForm") {
-//			val form = WebForm(request, IntForm::class)
-//			val result = form.get() as IntForm
 			val result = request.bind<IntForm>()
 			model.put("resultingString", result.toString())
 			render(resultView)
@@ -52,8 +48,6 @@ class HomeController : AbstractController("/") {
 
 		post("personForm") {
 			debugQueryMap(request)
-//			val form = WebForm(request, Person::class)
-//			val result = form.get() as Person
 			val result = request.bind<Person>()
 			model.put("resultingString", result.toString())
 			render(resultView)
@@ -61,16 +55,12 @@ class HomeController : AbstractController("/") {
 
 		post("checkboxForm") {
 			// request is empty when checkbox is unset
-//			val form = WebForm(request, Checkbox::class)
-//			val result = form.get() as Checkbox
 			val result = request.bind<Checkbox>()
 			model.put("resultingString", result.toString())
 			render(resultView)
 		}
 
 		post("radioButtonForm") {
-//			val form = WebForm(request, GenderForm::class)
-//			val result = form.get() as GenderForm
 			val result = request.bind<GenderForm>()
 			model.put("resultingString", result.toString())
 			render(resultView)
@@ -78,8 +68,6 @@ class HomeController : AbstractController("/") {
 
 		post("checkboxGroupForm") {
 			// 0,1 or more items. Possible repeats? Must be a list
-//			val form = WebForm(request,CheckboxListForm::class)
-//			val result = form.get() as CheckboxListForm
 			val result = request.bind<CheckboxListForm>()
 			model.put("resultingString",result.toString())
 			render(resultView)
