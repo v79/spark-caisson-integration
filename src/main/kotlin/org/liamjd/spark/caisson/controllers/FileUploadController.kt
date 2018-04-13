@@ -1,7 +1,7 @@
 package org.liamjd.spark.caisson.controllers
 
 import org.liamjd.caisson.controllers.AbstractController
-import org.liamjd.caisson.webforms.WebForm
+import org.liamjd.caisson.extensions.bind
 import org.liamjd.spark.caisson.models.MultipleFileUpload
 import org.liamjd.spark.caisson.models.SimpleFileUpload
 import spark.ModelAndView
@@ -35,9 +35,7 @@ class FileUploadController : AbstractController(path = "/upload") {
 				request.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement)
 			}
 
-
-
-			println("----- upload 2    ")
+			println("----- upload 2")
 			request.raw().parts.forEach {
 				println("\tpart: ${it.name}")
 				println("\t\t ${it.submittedFileName}")
@@ -48,20 +46,17 @@ class FileUploadController : AbstractController(path = "/upload") {
 			val part2 = request.raw().getPart("upload2")
 			println("getPart(upload2) again gives us ${part2}")
 
-
-			val myMultiPartForm = WebForm(request, MultipleFileUpload::class, "upload2")
-			val files = myMultiPartForm.get()
+			val files = request.bind<MultipleFileUpload>(arrayListOf("upload2"))
 
 			engine.render(ModelAndView(model, "fragments/results"))
 		}
 
 		post(path) {
 			val uploadName = "upload"
-			val myMultiPartForm = WebForm(request, SimpleFileUpload::class, uploadName)
 
-			val myUploadedFile = myMultiPartForm.get() as SimpleFileUpload
-			val contentType = myUploadedFile.upload.contentType
-			val stream = myUploadedFile.upload.stream
+			val myUploadedFile = request.bind<SimpleFileUpload>(arrayListOf(uploadName))
+			val contentType = myUploadedFile?.upload?.contentType
+			val stream = myUploadedFile?.upload?.stream
 			val tempFile = Files.createTempFile(uploadDir.toPath(), "", "")
 
 			println("------- File uploaded ------")
@@ -72,21 +67,19 @@ class FileUploadController : AbstractController(path = "/upload") {
 			debugParams(request)
 			debugRawParts(request)
 
-
-			myUploadedFile.upload.run {
-				println("ContentType: " + this.contentType)
-				println("OriginalFileName: " + this.originalFileName)
-				println("Size: " + this.size)
-				println("Bytes size: " + this.stream.readBytes(this.size.toInt()).size)
+			myUploadedFile?.upload.run {
+				println("ContentType: " + this?.contentType)
+				println("OriginalFileName: " + this?.originalFileName)
+				println("Size: " + this?.size)
+				println("Bytes size: " + this?.stream?.readBytes(this.size.toInt())?.size)
 			}
 
-
-			myUploadedFile.upload.stream.use { inputStream: InputStream? ->
+			myUploadedFile?.upload?.stream?.use { inputStream: InputStream? ->
 				Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
 				println(tempFile.fileName.toString())
 			}
 
-			model.put("resultingString", myUploadedFile.upload.originalFileName)
+			model.put("resultingString", myUploadedFile?.upload?.originalFileName!!)
 
 			engine.render(ModelAndView(model, "fragments/results"))
 		}
