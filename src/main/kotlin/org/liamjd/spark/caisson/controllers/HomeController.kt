@@ -3,7 +3,7 @@ package org.liamjd.spark.caisson.controllers
 import org.liamjd.caisson.annotations.CController
 import org.liamjd.caisson.annotations.CConverter
 import org.liamjd.caisson.controllers.AbstractController
-import org.liamjd.caisson.webforms.Form
+import org.liamjd.caisson.extensions.bind
 import org.liamjd.spark.caisson.converters.CheckboxConverter
 import org.liamjd.spark.caisson.converters.GenderConverter
 import spark.ModelAndView
@@ -34,46 +34,41 @@ class HomeController : AbstractController("/") {
 		}
 
 		post("stringForm") {
-			val result = Form(request.queryMap().toMap(),StringForm::class).get() as StringForm
+			val result = request.bind<StringForm>()
 			model.put("resultingString",result.toString())
 
 			render(resultView)
 		}
 
 		post("intForm") {
-			val form = Form(request.queryMap().toMap(), IntForm::class)
-			val result = form.get() as IntForm
+			val result = request.bind<IntForm>()
 			model.put("resultingString", result.toString())
 			render(resultView)
 		}
 
 		post("personForm") {
 			debugQueryMap(request)
-			val form = Form(request.queryMap().toMap(), Person::class)
-			val result = form.get() as Person
+			val result = request.bind<Person>()
 			model.put("resultingString", result.toString())
 			render(resultView)
 		}
 
 		post("checkboxForm") {
 			// request is empty when checkbox is unset
-			val form = Form(request.queryMap().toMap(), Checkbox::class)
-			val result = form.get() as Checkbox
+			val result = request.bind<Checkbox>()
 			model.put("resultingString", result.toString())
 			render(resultView)
 		}
 
 		post("radioButtonForm") {
-			val form = Form(request.queryMap().toMap(), GenderForm::class)
-			val result = form.get() as GenderForm
+			val result = request.bind<GenderForm>()
 			model.put("resultingString", result.toString())
 			render(resultView)
 		}
 
 		post("checkboxGroupForm") {
 			// 0,1 or more items. Possible repeats? Must be a list
-			val form = Form(request.queryMap().toMap(),CheckboxListForm::class)
-			val result = form.get() as CheckboxListForm
+			val result = request.bind<CheckboxListForm>()
 			model.put("resultingString",result.toString())
 			render(resultView)
 		}
