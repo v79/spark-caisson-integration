@@ -12,3 +12,5 @@ class ComplexForm(val complexText: String, val complexNumber: Int, val complexPa
 		return stringBuilder.toString()
 	}
 }
+
+data class DefaultForm(val defaultText :String = "Bob", val defaultNumber: Int = 25)

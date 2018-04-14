@@ -54,6 +54,27 @@
 			</div>
 		</div>
 
+		<div class="row">
+			<div class="col s8">
+				<form id="defaultsForm">
+					<fieldset id="defaultsForm-fieldgroup">
+						<div class="input-field col s3">
+							<input id="default-text" type="text" name="defaultText" placeholder="Bob"/>
+							<input id="default-number" type="number" name="defaultNumber" placeholder="25"/>
+						</div>
+						<div class="input-field  col s3">
+							<label for="default-text">Some text</label>
+							<label for="default-number">A number</label>
+
+							<div id="defaultFormSubmit" class="btn waves-effect waves-light"  th:onclick="'submit(\'defaultsForm\',\'results\');'">Submit
+								<i class="material-icons right">send</i>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+
 	</div>
 </div>
 
