@@ -6,16 +6,30 @@ buildscript {
     ext.spark_kotlin_version = '1.0.0-alpha'
     ext.caisson_version = '0.3.2-SNAPSHOT'
     ext.thymeleaf_version = '3.0.6.RELEASE'
+    ext.spek_version = '1.1.5'
 
     repositories {
         mavenCentral()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        // testing
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
     }
 }
 
 apply plugin: 'kotlin'
+
+// testing
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+junitPlatform {
+    filters {
+        engines {
+            include 'spek'
+        }
+    }
+}
 
 repositories {
     mavenCentral()
@@ -34,6 +48,22 @@ dependencies {
 
     // logging
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.2'
+
+    // testing
+    compile group: 'com.automation-remarks', name: 'kirk', version: '0.8.5'
+    testCompile group: "org.jetbrains.kotlin", name: "kotlin-test", version: "$kotlin_version"
+    testCompile(group: "org.jetbrains.spek", name: "spek-api", version: "$spek_version") {
+        // exclude kotlin from spek, so that we can use the newest version
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testCompile "io.mockk:mockk:1.7.15"
+    testRuntime("org.jetbrains.spek:spek-junit-platform-engine:${spek_version}") {
+        // exclude junit and kotlin from the engine, so we can use our own versions
+        exclude group: 'org.junit.platform'
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testCompile "org.jetbrains.spek:spek-api:${spek_version}"
+    testRuntime "org.jetbrains.spek:spek-junit-platform-engine:${spek_version}"
 
 }
 
