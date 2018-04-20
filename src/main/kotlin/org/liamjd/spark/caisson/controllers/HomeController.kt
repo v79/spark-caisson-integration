@@ -36,7 +36,6 @@ class HomeController : AbstractController("/") {
 		post("stringForm") {
 			val result = request.bind<StringForm>()
 			model.put("resultingString",result.toString())
-
 			render(resultView)
 		}
 
