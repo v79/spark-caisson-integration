@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+	<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--Import materialize.css-->
+	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">-->
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta charset="UTF-8">
+	<title>Complex Spark-Caisson Integration Tests</title>
+</head>
+<body>
+<h2>Complex Spark-Caisson Integration Tests - JSON</h2>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col s12">
+			<p><a href="/">Home</a> | <a href="get">Get Test</a> | <a href="upload">File Uploads</a> | <a href="complex">Complex</a></p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+			<div id="results">
+				<p>Results go here</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col s8">
+				<form id="jsonPersonForm">
+					<fieldset id="jsonperson-fieldgroup">
+						<div class="input-field col s3">
+							<input id="jpersonID" type="number" name="jpersonID"/>
+							<textarea id="jpersonJson" placeholder="Put a json string here" name="jpersonJson" rows="3"></textarea>
+
+						</div>
+						<div class="input-field col s3">
+							<label for="jpersonID">Person ID</label>
+							<label for="jpersonJson">Json string representing a person</label>
+
+							<div id="jsonPersonFormSubmit" class="btn waves-effect waves-light"  th:onclick="'submit(\'jsonPersonForm\',\'results\');'">Submit
+								<i class="material-icons right">send</i>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!--Import jQuery before materialize.js-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+<script src="/js/common.js"></script>
+</body>
+</html>

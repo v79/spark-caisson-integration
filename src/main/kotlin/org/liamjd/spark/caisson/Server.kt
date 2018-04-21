@@ -1,9 +1,6 @@
 package org.liamjd.spark.caisson
 
-import org.liamjd.spark.caisson.controllers.ComplexController
-import org.liamjd.spark.caisson.controllers.FileUploadController
-import org.liamjd.spark.caisson.controllers.GetController
-import org.liamjd.spark.caisson.controllers.HomeController
+import org.liamjd.spark.caisson.controllers.*
 import org.slf4j.LoggerFactory
 import spark.kotlin.port
 import spark.kotlin.staticFiles
@@ -27,6 +24,7 @@ class Server : SparkApplication {
 		ComplexController()
 		GetController()
 		FileUploadController()
+		JsonController()
 
 	}
 

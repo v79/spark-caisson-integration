@@ -1,12 +1,13 @@
 group 'org.liamjd'
-version '0.0.2-SNAPSHOT'
+version '0.0.5-SNAPSHOT'
 
 buildscript {
     ext.kotlin_version = '1.2.31'
     ext.spark_kotlin_version = '1.0.0-alpha'
-    ext.caisson_version = '0.3.2-SNAPSHOT'
+    ext.caisson_version = '0.3.3-SNAPSHOT'
     ext.thymeleaf_version = '3.0.6.RELEASE'
     ext.spek_version = '1.1.5'
+    ext.moshi_version = '1.5.0'
 
     repositories {
         mavenCentral()
@@ -48,6 +49,10 @@ dependencies {
 
     // logging
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.2'
+
+    // json via moshi
+    compile group: 'com.squareup.moshi', name: 'moshi', version: "$moshi_version"
+    compile group: 'com.squareup.moshi', name: 'moshi-kotlin', version: "$moshi_version"
 
     // testing
     compile group: 'com.automation-remarks', name: 'kirk', version: '0.8.5'
