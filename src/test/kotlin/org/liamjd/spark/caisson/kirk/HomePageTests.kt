@@ -17,11 +17,11 @@ class HomePageTests : Spek( {
 	val browser = Browser()
 
 	lateinit var server: Server
-//	server = Server(args)
+	server = Server(args)
 
 
-	beforeEachTest { server = Server(args) }
-	afterEachTest { server.destroy() }
+//	beforeEachTest { server = Server(args) }
+//	afterEachTest { server.destroy() }
 
 	describe("Launch a browser and navigate to the server home page") {
 		it("Opens the browser to the correct address") {

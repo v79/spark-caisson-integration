@@ -18,11 +18,11 @@ class ComplexPageTests : Spek({
 	val browser = Browser()
 
 	lateinit var server: Server
-	//	server = Server(args)
+	server = Server(args)
 
 
-	beforeEachTest { server = Server(args) }
-	afterEachTest { server.destroy() }
+//	beforeEachTest { server = Server(args) }
+//	afterEachTest { server.destroy() }
 
 	describe("Navigate to the complex page") {
 		browser.open(url)
