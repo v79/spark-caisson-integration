@@ -2,12 +2,15 @@ group 'org.liamjd'
 version '0.0.5-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext.kotlin_version = '1.2.50'
     ext.spark_kotlin_version = '1.0.0-alpha'
     ext.caisson_version = '0.3.3-SNAPSHOT'
-    ext.thymeleaf_version = '3.0.6.RELEASE'
+    ext.thymeleaf_version = '3.0.9.RELEASE'
+	ext.thymeleaf_java8time_version = '3.0.1.RELEASE'
     ext.spek_version = '1.1.5'
     ext.moshi_version = '1.5.0'
+	ext.kirk_version = '0.8.5'
+	ext.slf4j_version = '1.7.25'
 
     repositories {
         mavenCentral()
@@ -45,17 +48,17 @@ dependencies {
     compile group: 'com.sparkjava', name: 'spark-kotlin', version: "$spark_kotlin_version"
     // Thymeleaf templating engine
     compile group: 'org.thymeleaf', name:"thymeleaf", version: "$thymeleaf_version"
-    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.0.RELEASE'
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: "thymeleaf_java8time_version"
 
     // logging
-    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.2'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: "$slf4j_version"
 
     // json via moshi
     compile group: 'com.squareup.moshi', name: 'moshi', version: "$moshi_version"
     compile group: 'com.squareup.moshi', name: 'moshi-kotlin', version: "$moshi_version"
 
     // testing
-    compile group: 'com.automation-remarks', name: 'kirk', version: '0.8.5'
+    compile group: 'com.automation-remarks', name: 'kirk', version: "$kirk_version"
     testCompile group: "org.jetbrains.kotlin", name: "kotlin-test", version: "$kotlin_version"
     testCompile(group: "org.jetbrains.spek", name: "spek-api", version: "$spek_version") {
         // exclude kotlin from spek, so that we can use the newest version
